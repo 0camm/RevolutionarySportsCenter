@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0b">
+<title>RSC — Revolutionary Sports Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="RSC-Logo.png" type="image/png">
+
+<meta property="og:title" content="RSC — Revolutionary Sports Center" />
+<meta property="og:description" content="NBA & NFL based franchises, competitive gameplay, stats, standings, playoffs and media — all in one hub." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="RSC — Revolutionary Sports Center" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="RSC — Revolutionary Sports Center" />
+
+<style>
+
+:root{
+  --ac:#ffffff;
+  --ac-dim:rgba(255,255,255,.07);--ac-mid:rgba(255,255,255,.18);--ac-edge:rgba(255,255,255,.42);
+  --ac-glow:rgba(255,255,255,.28);
+  --bg:#0a0a0b;--s1:#111113;--s2:#161618;--s3:#1c1c20;--s4:#26262b;
+  --surface:var(--s1);--surface2:var(--s2);
+  --b:rgba(255,255,255,.10);--b2:rgba(255,255,255,.05);
+  --border:var(--b);--border2:var(--b2);
+  --mu:#9c9ca2;--mu2:#5a5a60;
+  --muted:var(--mu);--muted2:var(--mu2);
+  --tx:#f5f5f7;--tx2:#b7b7bd;
+  --text:var(--tx);
+  --gr:#37e07a;--gr-d:rgba(55,224,122,.09);
+
+  --glass-bg:rgba(19,19,22,.62);
+  --glass-bg-soft:rgba(19,19,22,.42);
+  --glass-border:rgba(255,255,255,.12);
+  --glass-hi:rgba(255,255,255,.08);
+  --glass-blur:18px;
+  --glass-shadow:0 20px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.06);
+
+  --nav-h:60px;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --safe-left:env(safe-area-inset-left,0px);
+  --safe-right:env(safe-area-inset-right,0px);
+  --ease:cubic-bezier(.16,.84,.44,1);
+  --ease-soft:cubic-bezier(.4,0,.2,1);
+  --mx:50%;--my:50%;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(1100px 620px at 12% -8%, rgba(255,255,255,.05), transparent 55%),
+    radial-gradient(900px 560px at 100% 0%, rgba(255,255,255,.035), transparent 50%),
+    var(--bg);
+  color:var(--tx);
+  font-family:'Inter',sans-serif;font-size:14px;
+  min-height:100vh;-webkit-font-smoothing:antialiased;
+  width:100%;max-width:100vw;overflow-x:hidden;
+  position:relative;
+}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:4px}
+button:focus-visible,a:focus-visible{outline-offset:3px}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
+
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--s4);border-radius:8px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--mu2)}
+*{scrollbar-width:thin;scrollbar-color:var(--mu2) transparent}
+::selection{background:rgba(255,255,255,.22);color:#fff}
+
+.scroll-progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--ac),#c9c9ce);width:0%;z-index:300;transition:width .1s linear;box-shadow:0 0 8px var(--ac-glow)}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:var(--nav-h);
+  padding-top:var(--safe-top);
+  display:flex;align-items:center;justify-content:space-between;
+  padding-left:max(20px,var(--safe-left));
+  padding-right:max(20px,var(--safe-right));
+  background:var(--glass-bg);
+  backdrop-filter:blur(var(--glass-blur)) saturate(120%);
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(120%);
+  border-bottom:1px solid var(--glass-border);
+  transition:border-color .3s,box-shadow .3s,transform .3s var(--ease-soft),background .3s;
+}
+nav.scrolled{background:rgba(17,17,19,.88);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+nav.nav-hidden{transform:translateY(-100%)}
+.nav-left{display:flex;align-items:center;gap:12px}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;
+  cursor:pointer;text-decoration:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-logo img{transition:transform .35s var(--ease);border:1px solid var(--glass-border);border-radius:7px}
+.nav-logo:hover img{transform:rotate(-8deg) scale(1.06)}
+.nav-brand{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:17px;letter-spacing:.08em;color:#fff;white-space:nowrap;
+}
+.nav-brand em{color:var(--ac);font-style:normal}
+.nav-pill{
+  font-size:10px;font-weight:600;letter-spacing:.08em;
+  color:var(--tx2);text-transform:uppercase;
+  background:var(--glass-bg-soft);border:1px solid var(--glass-border);border-radius:20px;padding:3px 9px;
+  position:relative;backdrop-filter:blur(6px);
+}
+.nav-center{
+  display:flex;align-items:center;gap:1px;
+  position:absolute;left:50%;transform:translateX(-50%);
+  background:var(--glass-bg-soft);
+  border:1px solid var(--glass-border);
+  border-radius:11px;padding:3px;
+  backdrop-filter:blur(6px);
+}
+.nav-center button{
+  position:relative;
+  background:none;border:none;color:var(--tx2);
+  font-family:'Inter',sans-serif;font-size:12.5px;font-weight:500;
+  padding:6px 12px;border-radius:8px;cursor:pointer;letter-spacing:.01em;
+  transition:color .16s,background .16s;white-space:nowrap;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-center button::after{content:'';position:absolute;left:12px;right:12px;bottom:-1px;height:2px;border-radius:2px;background:var(--ac);transform:scaleX(0);transform-origin:center;transition:transform .25s var(--ease)}
+.nav-center button:hover{color:var(--tx);background:rgba(255,255,255,.07)}
+.nav-center button.active{color:#fff;background:rgba(255,255,255,.1)}
+.nav-center button.active::after{transform:scaleX(1)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-cta{
+  display:flex;align-items:center;gap:6px;
+  font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:#0a0a0b;background:var(--ac);border:1px solid rgba(255,255,255,.15);border-radius:8px;
+  padding:8px 16px;cursor:pointer;position:relative;overflow:hidden;
+  transition:background .16s,box-shadow .16s,transform .12s;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-cta:hover{background:#d8d8dc;box-shadow:0 4px 24px rgba(255,255,255,.22);transform:translateY(-1px)}
+.nav-cta:active{transform:translateY(0) scale(.97)}
+.nav-hamburger{
+  display:none;flex-direction:column;gap:5px;
+  cursor:pointer;background:none;border:none;
+  width:44px;height:44px;
+  align-items:center;justify-content:center;border-radius:8px;
+  -webkit-tap-highlight-color:transparent;transition:background .16s;
+}
+.nav-hamburger:hover{background:rgba(255,255,255,.08)}
+.nav-hamburger span{
+  display:block;width:20px;height:2px;
+  background:var(--tx2);border-radius:2px;
+  transition:transform .24s var(--ease-soft),opacity .24s,background .16s;
+  transform-origin:center;
+}
+.nav-hamburger.open span{background:var(--tx)}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+.mobile-menu{
+  position:fixed;
+  top:calc(var(--nav-h) + var(--safe-top));left:0;right:0;z-index:190;
+  background:rgba(17,17,19,.97);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--glass-border);
+  padding:8px 12px calc(16px + var(--safe-bottom));
+  flex-direction:column;gap:2px;
+  transform:translateY(-8px);opacity:0;pointer-events:none;
+  transition:opacity .22s ease,transform .22s ease;display:flex;
+  max-height:calc(100svh - var(--nav-h) - var(--safe-top));overflow-y:auto;
+}
+.mobile-menu.open{opacity:1;transform:translateY(0);pointer-events:auto}
+.mobile-menu button{
+  background:none;border:none;color:var(--tx);
+  font-family:'Inter',sans-serif;font-size:16px;font-weight:500;
+  padding:0 16px;border-radius:10px;cursor:pointer;text-align:left;
+  transition:background .16s,transform .18s var(--ease);-webkit-tap-highlight-color:transparent;
+  min-height:52px;display:flex;align-items:center;
+  opacity:0;transform:translateX(-10px);
+}
+.mobile-menu.open button{opacity:1;transform:none}
+.mobile-menu.open button:nth-child(1){transition-delay:.03s}
+.mobile-menu.open button:nth-child(2){transition-delay:.06s}
+.mobile-menu.open button:nth-child(3){transition-delay:.09s}
+.mobile-menu.open button:nth-child(4){transition-delay:.12s}
+.mobile-menu.open button:nth-child(5){transition-delay:.15s}
+.mobile-menu button:hover{background:rgba(255,255,255,.07)}
+.mobile-menu button.active{background:rgba(255,255,255,.1);color:#fff}
+.mobile-menu .m-divider{height:1px;background:var(--glass-border);margin:6px 4px}
+.mobile-menu .m-cta{
+  background:var(--ac)!important;color:#0a0a0b!important;
+  justify-content:center!important;font-weight:700!important;
+  margin-top:4px;font-size:15px!important;letter-spacing:.03em;
+  box-shadow:0 4px 20px rgba(255,255,255,.18);border-radius:10px;
+}
+
+#page-home{padding-top:calc(var(--nav-h) + var(--safe-top));position:relative;z-index:2}
+
+.hero{
+  position:relative;
+  min-height:calc(100svh - var(--nav-h) - var(--safe-top));
+  display:flex;align-items:flex-end;
+  padding:0 28px 80px;overflow:hidden;
+}
+.hero-static-bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(900px 500px at 78% 8%, rgba(255,255,255,.07), transparent 60%),
+    radial-gradient(700px 460px at 8% 92%, rgba(255,255,255,.05), transparent 55%),
+    linear-gradient(160deg,#141416 0%,#0a0a0b 60%);
+}
+.hero-static-bg::before{
+  content:'';position:absolute;inset:0;opacity:.5;
+  background-image:
+    radial-gradient(circle at 22% 30%, rgba(255,255,255,.06) 0, rgba(255,255,255,.06) 2px, transparent 2px),
+    radial-gradient(circle at 68% 62%, rgba(255,255,255,.05) 0, rgba(255,255,255,.05) 2px, transparent 2px);
+  background-size:64px 64px, 88px 88px;
+}
+.hero-vignette{
+  position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(to top,var(--bg) 0%,rgba(10,10,11,.5) 32%,transparent 60%),
+    linear-gradient(to right,rgba(10,10,11,.8) 0%,rgba(10,10,11,.2) 50%,transparent 70%);
+  pointer-events:none;
+}
+.hero-top-fade{
+  position:absolute;top:0;left:0;right:0;height:120px;z-index:1;
+  background:linear-gradient(to bottom,rgba(10,10,11,.5) 0%,transparent 100%);
+  pointer-events:none;
+}
+.hero-content{
+  position:relative;z-index:2;max-width:600px;will-change:transform;
+  background:var(--glass-bg-soft);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  padding:28px 30px;
+  backdrop-filter:blur(var(--glass-blur)) saturate(130%);
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(130%);
+  box-shadow:var(--glass-shadow);
+}
+.hero-content::before{
+  content:'';position:absolute;top:0;left:16px;right:16px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:#e7e7ea;margin-bottom:16px;
+  opacity:0;transform:translateY(14px);animation:heroUp .7s var(--ease) .1s forwards;
+}
+.hero-eyebrow::before{content:'';width:20px;height:2px;background:var(--ac);border-radius:2px}
+.hero h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(56px,11vw,102px);
+  line-height:.89;letter-spacing:.02em;color:#fff;margin-bottom:20px;
+  overflow:hidden;
+}
+.hero h1 .ln{display:block;opacity:0;transform:translateY(100%);animation:heroUp .8s var(--ease) forwards}
+.hero h1 .ln:nth-child(1){animation-delay:.2s}
+.hero h1 .ln:nth-child(2){animation-delay:.34s}
+.hero h1 em{color:var(--ac);font-style:normal;position:relative}
+@keyframes heroUp{to{opacity:1;transform:none}}
+.hero-sub{
+  font-size:13.5px;line-height:1.75;font-weight:400;
+  color:var(--tx2);max-width:400px;margin-bottom:26px;
+  opacity:0;transform:translateY(14px);animation:heroUp .7s var(--ease) .48s forwards;
+}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  opacity:0;transform:translateY(14px);animation:heroUp .7s var(--ease) .58s forwards;
+}
+.hero-key-row{
+  display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;
+  opacity:0;transform:translateY(14px);animation:heroUp .7s var(--ease) .66s forwards;
+}
+.hero-key-chip{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 10px;border-radius:7px;
+  background:rgba(255,255,255,.07);border:1px solid var(--glass-border);
+  font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--tx2);
+}
+.hero-key-chip .dot{width:6px;height:6px;border-radius:50%;background:var(--ac);flex-shrink:0}
+.hero-key-chip .dot.live{background:var(--gr);animation:livePulse 1.8s ease infinite}
+@keyframes livePulse{0%{box-shadow:0 0 0 0 rgba(55,224,122,.5)}70%{box-shadow:0 0 0 6px rgba(55,224,122,0)}100%{box-shadow:0 0 0 0 rgba(55,224,122,0)}}
+
+.hero-stats{
+  position:absolute;right:52px;top:88px;z-index:2;
+  display:flex;align-items:stretch;gap:0;
+  background:var(--glass-bg-soft);border:1px solid var(--glass-border);border-radius:12px;
+  backdrop-filter:blur(var(--glass-blur));-webkit-backdrop-filter:blur(var(--glass-blur));
+  padding:2px 4px;box-shadow:var(--glass-shadow);
+}
+.hero-stat{display:flex;flex-direction:column;padding:12px 20px;text-align:right;border-left:1px solid var(--glass-border)}
+.hero-stat:first-child{border-left:none;padding-right:20px}
+.hero-stat-num{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.04em;color:#fff;line-height:1}
+.hero-stat-label{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--tx2);margin-top:5px;font-family:'JetBrains Mono',monospace}
+
+.btn-primary{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--ac);color:#0a0a0b;
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:700;letter-spacing:.03em;
+  padding:13px 24px;border-radius:9px;border:1px solid rgba(255,255,255,.15);
+  cursor:pointer;text-decoration:none;position:relative;overflow:hidden;
+  transition:background .16s,transform .12s,box-shadow .16s;
+  -webkit-tap-highlight-color:transparent;min-height:48px;
+}
+.btn-primary:hover{background:#d8d8dc;transform:translateY(-1px);box-shadow:0 10px 28px rgba(255,255,255,.22)}
+.btn-primary:active{transform:translateY(0) scale(.98)}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:7px;
+  color:var(--tx);background:var(--glass-bg-soft);
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:600;
+  padding:13px 22px;border-radius:9px;border:1px solid var(--glass-border);cursor:pointer;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  transition:color .16s,border-color .16s,background .16s,transform .12s;
+  -webkit-tap-highlight-color:transparent;min-height:48px;
+}
+.btn-ghost:hover{color:#fff;border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.1);transform:translateY(-1px)}
+.btn-ghost:active{transform:translateY(0) scale(.98)}
+
+.mobile-stats{
+  display:none;grid-template-columns:repeat(3,1fr);
+  border-bottom:1px solid var(--glass-border);background:var(--s1);
+}
+.mobile-stat{padding:20px 16px;border-right:1px solid var(--glass-border);text-align:center}
+.mobile-stat:last-child{border-right:none}
+.mobile-stat-num{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.04em;color:#fff;line-height:1;display:block}
+.mobile-stat-label{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--tx2);margin-top:5px;font-family:'JetBrains Mono',monospace;display:block}
+
+.status-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:var(--s1);border-bottom:1px solid var(--glass-border);
+  position:relative;
+}
+.status-strip::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--ac-edge),transparent 55%);
+}
+.status-item{padding:24px 28px;border-right:1px solid var(--glass-border);position:relative;overflow:hidden;transition:background .25s}
+.status-item:hover{background:rgba(255,255,255,.03)}
+.status-item:last-child{border-right:none}
+.status-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--tx2);margin-bottom:8px;font-family:'JetBrains Mono',monospace}
+.status-value{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.03em;color:#fff;font-variant-numeric:tabular-nums}
+.status-live{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gr)}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--gr);flex-shrink:0;animation:sLivePulse 2s ease infinite;box-shadow:0 0 0 0 rgba(55,224,122,.4)}
+@keyframes sLivePulse{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(55,224,122,.4)}50%{transform:scale(1.15);box-shadow:0 0 0 6px rgba(55,224,122,0)}100%{transform:scale(1);box-shadow:0 0 0 0 rgba(55,224,122,.4)}}
+
+.section{padding:72px 28px;position:relative}
+.section-header{margin-bottom:28px}
+.sec-hd-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.section-eyebrow{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#e7e7ea;margin-bottom:10px;font-family:'JetBrains Mono',monospace}
+.section-eyebrow::before{content:'';width:20px;height:2px;background:var(--ac);border-radius:2px}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(30px,5vw,46px);letter-spacing:.03em;line-height:.95;color:#fff}
+.sec-ct{
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--tx2);background:var(--s3);border:1px solid var(--glass-border);
+  border-radius:20px;padding:3px 10px;
+}
+.sec-ct.sec-ct-live{
+  color:#e7e7ea;border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.08);
+  display:inline-flex;align-items:center;gap:6px;
+}
+.sec-ct.sec-ct-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gr);display:inline-block;animation:sLivePulse 2s ease infinite}
+.sec-rule{flex:1;height:1px;background:var(--glass-border);min-width:24px}
+
+/* feature cards (What sets RSC apart) */
+.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.feature-card{
+  padding:26px 22px;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:13px;
+  position:relative;overflow:hidden;transition:border-color .3s,transform .3s var(--ease),background .3s;
+}
+.feature-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,var(--ac-edge),transparent 55%);
+}
+.feature-card:hover{border-color:rgba(255,255,255,.3);transform:translateY(-3px);background:rgba(255,255,255,.05)}
+.feature-icon{
+  width:42px;height:42px;border-radius:11px;background:var(--ac-dim);border:1px solid var(--ac-mid);
+  display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+}
+.feature-icon svg{width:20px;height:20px;stroke:#fff;fill:none}
+.feature-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.03em;color:#fff;margin-bottom:8px}
+.feature-desc{font-size:12.5px;line-height:1.65;color:var(--tx2)}
+
+/* hub grid — explore RSC (icon tiles, external links) */
+.hub-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.hub-card{
+  position:relative;height:200px;overflow:hidden;cursor:pointer;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:13px;
+  -webkit-tap-highlight-color:transparent;
+  transition:border-color .3s,transform .3s var(--ease),box-shadow .3s,background .3s;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:20px;
+}
+.hub-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;z-index:3;
+  background:linear-gradient(90deg,var(--ac-edge),transparent 55%);
+}
+.hub-card::after{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;
+  background:radial-gradient(220px circle at var(--mx) var(--my), rgba(255,255,255,.1), transparent 60%);
+  transition:opacity .3s;
+}
+.hub-card:hover{border-color:rgba(255,255,255,.32);box-shadow:0 16px 40px rgba(0,0,0,.4);transform:translateY(-3px)}
+.hub-card:hover::after{opacity:1}
+.hub-card-icon{
+  width:44px;height:44px;border-radius:11px;background:rgba(255,255,255,.08);border:1px solid var(--glass-border);
+  display:flex;align-items:center;justify-content:center;margin-bottom:auto;z-index:1;
+  transition:background .3s,transform .3s;
+}
+.hub-card-icon svg{width:21px;height:21px;stroke:#fff;fill:none}
+.hub-card:hover .hub-card-icon{background:rgba(255,255,255,.16);transform:scale(1.06) rotate(-4deg)}
+.hub-card-tag{font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#e7e7ea;margin-bottom:5px;font-family:'JetBrains Mono',monospace;position:relative;z-index:1}
+.hub-card-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.04em;color:#fff;position:relative;z-index:1}
+.hub-card-arrow{position:absolute;z-index:3;top:14px;right:14px;width:28px;height:28px;background:var(--glass-bg-soft);border:1px solid var(--glass-border);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(4px) scale(.9);transition:opacity .22s,transform .22s,background .22s;backdrop-filter:blur(8px)}
+.hub-card:hover .hub-card-arrow{opacity:1;transform:translateY(0) scale(1);background:rgba(255,255,255,.18)}
+
+.yt-embed-card{
+  background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:16px;
+  overflow:hidden;box-shadow:var(--glass-shadow);
+  max-width:640px;margin:0 auto;
+}
+.yt-embed-wrap{position:relative;width:100%;padding-top:56.25%;background:#000}
+.yt-embed-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;display:block}
+.yt-promo{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;text-align:center;padding:24px;cursor:pointer;text-decoration:none;
+  background:
+    radial-gradient(500px 260px at 50% 30%, rgba(255,255,255,.08), transparent 65%),
+    linear-gradient(160deg,#18181b,#0d0d0e);
+  transition:background .3s;
+}
+.yt-promo:hover{background:
+    radial-gradient(520px 280px at 50% 30%, rgba(255,255,255,.12), transparent 65%),
+    linear-gradient(160deg,#1c1c20,#111113);}
+.yt-promo-play{
+  width:66px;height:66px;border-radius:50%;
+  background:var(--ac);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 32px rgba(255,255,255,.25);
+  transition:transform .22s var(--ease);flex-shrink:0;
+}
+.yt-promo:hover .yt-promo-play{transform:scale(1.08)}
+.yt-promo-play svg{width:22px;height:22px;fill:#0a0a0b;margin-left:3px}
+.yt-promo-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.04em;color:#fff}
+.yt-promo-sub{font-size:12.5px;color:var(--tx2);max-width:380px;line-height:1.6}
+.yt-embed-footer{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding:18px 22px;
+}
+.yt-embed-note{font-size:12.5px;color:var(--tx2);line-height:1.6}
+
+.scroll-cue{
+  position:absolute;left:50%;bottom:18px;z-index:3;
+  transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  color:var(--tx2);text-decoration:none;cursor:pointer;background:none;border:none;
+  -webkit-tap-highlight-color:transparent;
+  opacity:0;animation:heroUp .7s var(--ease) .9s forwards;
+}
+.scroll-cue span{
+  font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  font-family:'JetBrains Mono',monospace;color:var(--tx2);
+  transition:color .2s;
+}
+.scroll-cue:hover span{color:#fff}
+.scroll-cue-icon{
+  width:30px;height:30px;border-radius:50%;
+  border:1px solid var(--glass-border);background:var(--glass-bg-soft);
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  animation:scrollBounce 1.8s ease-in-out infinite;
+  transition:border-color .2s,background .2s;
+}
+.scroll-cue:hover .scroll-cue-icon{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.1)}
+.scroll-cue-icon svg{width:13px;height:13px}
+@keyframes scrollBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+.links-section{border-top:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border);background:var(--s1)}
+.links-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.link-card{
+  padding:44px 36px;background:transparent;text-decoration:none;display:flex;align-items:flex-start;gap:20px;
+  border:1px solid transparent;cursor:pointer;position:relative;overflow:hidden;
+  transition:background .22s,border-color .22s;-webkit-tap-highlight-color:transparent;
+}
+.link-card::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;
+  background:radial-gradient(320px circle at var(--mx) var(--my), rgba(255,255,255,.06), transparent 65%);
+  transition:opacity .3s;
+}
+.link-card:hover::before{opacity:1}
+.link-card+.link-card{border-left:1px solid var(--glass-border)}
+.link-card:hover{background:rgba(255,255,255,.03);border-color:var(--glass-border)}
+.link-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,var(--ac),transparent);opacity:0;transition:opacity .3s;z-index:1}
+.link-card:hover::after{opacity:1}
+.link-icon{
+  width:44px;height:44px;border-radius:11px;background:var(--ac-dim);
+  border:1px solid var(--ac-mid);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:background .22s,transform .22s;position:relative;z-index:1;
+}
+.link-card:hover .link-icon{background:rgba(255,255,255,.16);transform:scale(1.06) rotate(-4deg)}
+.link-icon svg{width:20px;height:20px;fill:#fff}
+.link-icon svg.stroke{fill:none;stroke:#fff}
+.link-body{flex:1;min-width:0;position:relative;z-index:1}
+.link-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.04em;color:#fff;margin-bottom:8px}
+.link-desc{font-size:12.5px;color:var(--tx2);line-height:1.7;font-weight:400}
+.link-action{display:inline-flex;align-items:center;gap:5px;margin-top:16px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#e7e7ea;font-family:'JetBrains Mono',monospace;transition:gap .2s}
+.link-card:hover .link-action{gap:9px}
+.link-action svg{width:10px;height:10px}
+
+footer{padding:32px max(28px,var(--safe-left));display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--glass-border);flex-wrap:wrap;gap:14px;background:var(--s1);padding-bottom:max(32px,var(--safe-bottom));position:relative;z-index:2}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.1em;color:var(--tx2)}
+.footer-copy{font-size:11px;color:var(--mu2);font-family:'JetBrains Mono',monospace}
+.footer-links{display:flex;gap:18px}
+.footer-links a{font-size:11px;color:var(--tx2);text-decoration:none;transition:color .18s;min-height:44px;display:flex;align-items:center}
+.footer-links a:hover{color:#fff}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s var(--ease-soft),transform .6s var(--ease-soft)}
+.reveal.visible{opacity:1;transform:none}
+
+.back-to-top{
+  position:fixed;right:20px;bottom:calc(20px + var(--safe-bottom));z-index:150;
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--glass-border);
+  background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--tx2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  opacity:0;transform:translateY(10px) scale(.9);pointer-events:none;
+  box-shadow:var(--glass-shadow);
+  transition:opacity .25s var(--ease),transform .25s var(--ease),background .2s,color .2s,border-color .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.back-to-top.show{opacity:1;transform:none;pointer-events:auto}
+.back-to-top:hover{background:var(--ac);color:#0a0a0b;border-color:var(--ac)}
+
+@media(min-width:1600px){
+  .hero-content{max-width:680px}
+  .hero h1{font-size:clamp(74px,9vw,140px)}
+  .section,.hero{padding-left:64px;padding-right:64px}
+  .links-section .link-card{padding:52px 56px}
+}
+
+@media(max-width:1200px) and (min-width:901px){
+  .hero-stats{right:32px}
+  .hub-card{height:180px}
+}
+
+@media(max-width:900px){
+  .nav-center{display:none}
+  .nav-hamburger{display:flex}
+  .nav-cta{display:none}
+  .nav-pill{display:none}
+}
+
+@media(max-width:768px){
+  .feature-grid{grid-template-columns:repeat(2,1fr)}
+  .hub-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .hub-card{height:170px}
+  .hub-card-arrow{opacity:1;transform:none}
+  .links-grid{grid-template-columns:1fr 1fr}
+  .link-card+.link-card{border-left:1px solid var(--glass-border);border-top:none}
+  .link-card:nth-child(odd){border-left:none}
+  .link-card:nth-child(3),.link-card:nth-child(4){border-top:1px solid var(--glass-border)}
+  .link-card{padding:32px 24px;gap:18px}
+  .status-strip{grid-template-columns:repeat(2,1fr)}
+  .status-item:nth-child(2){border-right:none}
+  .status-item:nth-child(3){border-top:1px solid var(--glass-border)}
+  .status-item:nth-child(4){border-right:none;border-top:1px solid var(--glass-border)}
+  .section{padding:56px 20px}
+  .section-header{margin-bottom:28px}
+  .yt-embed-footer{padding:16px}
+  footer{flex-direction:column;align-items:flex-start;padding:28px 20px;padding-bottom:max(28px,var(--safe-bottom));gap:10px}
+  .footer-links{gap:14px}
+}
+
+@media(max-width:640px){
+  .hero{padding:0 16px 68px;align-items:flex-end}
+  .hero-content{padding:20px 20px;border-radius:14px}
+  .hero h1{font-size:clamp(44px,13vw,64px);margin-bottom:12px}
+  .hero-eyebrow{margin-bottom:10px}
+  .hero-sub{font-size:13px;margin-bottom:20px;max-width:100%}
+  .hero-actions{flex-direction:row;gap:10px;flex-wrap:nowrap}
+  .btn-primary,.btn-ghost{flex:1;justify-content:center;font-size:13px;padding:13px 12px;min-height:48px}
+  .hero-stats{display:none}
+  .hero-key-row{display:none}
+  .scroll-cue{bottom:12px}
+  .mobile-stats{display:grid}
+  .feature-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .feature-card{padding:20px 16px}
+  .hub-card{height:150px;padding:16px}
+  .hub-card-name{font-size:17px}
+  .status-item{padding:18px 16px}
+  .status-value{font-size:22px}
+  .status-label{font-size:9px}
+  .section{padding:44px 16px}
+  .section-title{font-size:clamp(28px,8vw,40px)}
+  .yt-embed-card{border-radius:13px;max-width:100%}
+  .yt-promo{gap:10px;padding:18px}
+  .yt-promo-play{width:54px;height:54px}
+  .yt-promo-play svg{width:18px;height:18px}
+  .yt-promo-title{font-size:19px}
+  .yt-promo-sub{font-size:11.5px}
+  .yt-embed-footer{flex-direction:column;align-items:flex-start}
+  .yt-embed-footer .btn-ghost{width:100%;justify-content:center}
+  .link-card{padding:24px 16px;gap:14px}
+  .link-icon{width:40px;height:40px;border-radius:10px}
+  .link-title{font-size:20px;margin-bottom:6px}
+  .link-desc{font-size:12px;line-height:1.65}
+  .link-action{margin-top:12px}
+  footer{padding:24px 16px;padding-bottom:max(24px,var(--safe-bottom));gap:12px}
+  .footer-links{gap:14px}
+  .back-to-top{right:14px;bottom:calc(14px + var(--safe-bottom));width:40px;height:40px}
+}
+
+@media(max-width:390px){
+  .hero h1{font-size:clamp(40px,15vw,56px)}
+  .nav-brand{font-size:15px}
+  .feature-grid{grid-template-columns:1fr}
+  .hub-card{height:130px}
+  .hub-card-name{font-size:15px}
+  .mobile-stat-num{font-size:24px}
+  .status-item{padding:16px 14px}
+  .link-card{padding:20px 14px;gap:12px}
+}
+
+@media(max-height:480px) and (orientation:landscape){
+  .hero{min-height:auto;padding-top:90px;padding-bottom:40px}
+  .hero-stats{display:none}
+  .scroll-cue{display:none}
+}
+
+@media(hover:none){
+  .hub-card-arrow{opacity:1;transform:none}
+  .hub-card::after,.link-card::before{display:none}
+  .hub-card:hover{transform:none}
+}
+
+@media(min-width:641px) and (max-width:900px){
+  .hero h1{font-size:clamp(52px,10vw,84px)}
+  .hub-card{height:190px}
+}
+
+#toasts{position:fixed;bottom:20px;right:16px;display:flex;flex-direction:column-reverse;gap:7px;z-index:9999;pointer-events:none;width:min(300px,calc(100vw - 32px))}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<nav id="mainNav">
+  <div class="nav-left">
+    <div class="nav-logo" onclick="scrollToSection('home')">
+      <img src="RSC-Logo.png" alt="RSC" style="width:30px;height:30px;object-fit:contain;">
+      <span class="nav-brand">Revolutionary <em>Sports Center</em></span>
+    </div>
+    <span class="nav-pill">Basketball • Football</span>
+  </div>
+  <div class="nav-center">
+    <button onclick="scrollToSection('home')"     data-page="home"     class="active">Home</button>
+    <button onclick="scrollToSection('features')" data-page="features">Features</button>
+    <button onclick="scrollToSection('leagues')"  data-page="leagues">Leagues</button>
+    <button onclick="scrollToSection('media')"    data-page="media">Media</button>
+    <button onclick="scrollToSection('community')" data-page="community">Community</button>
+  </div>
+  <div class="nav-right">
+    <button class="nav-cta" onclick="window.open('https://discord.gg/E4wf9Dm7TD','_blank')">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.112 18.1.131 18.116a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      Join Discord
+    </button>
+    <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobile navigation">
+  <button onclick="scrollToSection('home');closeMenu()"      data-page="home"     class="active">Home</button>
+  <button onclick="scrollToSection('features');closeMenu()"  data-page="features">Features</button>
+  <button onclick="scrollToSection('leagues');closeMenu()"   data-page="leagues">Leagues</button>
+  <button onclick="scrollToSection('media');closeMenu()"     data-page="media">Media</button>
+  <button onclick="scrollToSection('community');closeMenu()" data-page="community">Community</button>
+  <div class="m-divider"></div>
+  <button class="m-cta" onclick="window.open('https://discord.gg/E4wf9Dm7TD','_blank');closeMenu()">Join Discord</button>
+</div>
+
+<div id="page-home" class="page">
+
+  <div class="hero" id="home">
+    <div class="hero-static-bg"></div>
+    <div class="hero-top-fade"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content" id="heroContent">
+      <div class="hero-eyebrow">Basketball &amp; Football — Live Now</div>
+      <h1><span class="ln">Revolutionary</span><span class="ln"><em>Sports Center</em></span></h1>
+      <p class="hero-sub">One of the most competitive sports centers on Roblox, covering both basketball and football with realistic gameplay, organized competition, and a dedicated community.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="window.open('https://discord.gg/E4wf9Dm7TD','_blank')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.112 18.1.131 18.116a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+          Join Discord
+        </button>
+        <button class="btn-ghost" onclick="scrollToSection('leagues')">Explore Leagues</button>
+      </div>
+      <div class="hero-key-row">
+        <div class="hero-key-chip"><span class="dot live"></span>Live Standings</div>
+        <div class="hero-key-chip"><span class="dot"></span>NBA &amp; NFL Franchises</div>
+        <div class="hero-key-chip"><span class="dot"></span>Playoffs &amp; Awards</div>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="hero-stat-num" data-count="2">0</span><span class="hero-stat-label">Sports</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">NBA/NFL</span><span class="hero-stat-label">Franchise Style</span></div>
+      <div class="hero-stat"><span class="hero-stat-num">Live</span><span class="hero-stat-label">Standings</span></div>
+    </div>
+    <button class="scroll-cue" id="scrollCue" aria-label="Scroll down to see more">
+      <span>Scroll For More</span>
+      <span class="scroll-cue-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </button>
+  </div>
+
+  <div class="mobile-stats">
+    <div class="mobile-stat"><span class="mobile-stat-num" data-count="2">0</span><span class="mobile-stat-label">Sports</span></div>
+    <div class="mobile-stat"><span class="mobile-stat-num" style="font-size:16px;">NBA/NFL</span><span class="mobile-stat-label">Style</span></div>
+    <div class="mobile-stat"><span class="mobile-stat-num" style="color:var(--gr);font-size:16px;padding-top:4px;">●</span><span class="mobile-stat-label">Live</span></div>
+  </div>
+
+  <div class="status-strip reveal">
+    <div class="status-item"><div class="status-label">Center Status</div><div class="status-live"><div class="live-dot"></div>Live</div></div>
+    <div class="status-item"><div class="status-label">Sports Covered</div><div class="status-value" data-count="2">0</div></div>
+    <div class="status-item"><div class="status-label">Franchises</div><div class="status-value" style="font-size:20px;">NBA &amp; NFL</div></div>
+    <div class="status-item"><div class="status-label">Format</div><div class="status-value" style="font-size:20px;">Playoffs</div></div>
+  </div>
+
+  <div class="section" id="features">
+    <div class="section-header">
+      <div class="sec-hd-top reveal">
+        <span class="section-title" style="font-size:19px;letter-spacing:.08em;">What Sets RSC Apart</span>
+        <span class="sec-ct">4 pillars</span>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="section-eyebrow reveal" style="margin-top:6px;">Built For Real Competition</div>
+    </div>
+    <div class="feature-grid reveal">
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M6 6c3 3 3 9 0 12M18 6c-3 3-3 9 0 12"/></svg></div>
+        <div class="feature-title">NBA &amp; NFL Franchises</div>
+        <div class="feature-desc">Every team is built around real league identities, bringing authentic franchise culture to Roblox.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7 7M20 4l-7 7M4 20l7-7M20 20l-7-7"/><circle cx="12" cy="12" r="2.4"/></svg></div>
+        <div class="feature-title">Competitive Gameplay</div>
+        <div class="feature-desc">Structured matchups and realistic mechanics keep every single game meaningful.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M6 3h12v4a6 6 0 0 1-12 0V3zM6 5H3v2a3 3 0 0 0 3 3M18 5h3v2a3 3 0 0 1-3 3"/></svg></div>
+        <div class="feature-title">Stats, Standings &amp; Awards</div>
+        <div class="feature-desc">Full season tracking from opening night through the playoffs and end-of-season awards.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3V9z" fill="#fff" stroke="none"/></svg></div>
+        <div class="feature-title">Live Games &amp; Media</div>
+        <div class="feature-desc">Watch full broadcasts, catch recaps, and relive the best moments from every matchup.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="leagues">
+    <div class="section-header">
+      <div class="sec-hd-top reveal">
+        <span class="section-title" style="font-size:19px;letter-spacing:.08em;">Explore RSC</span>
+        <span class="sec-ct">4 sections</span>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="section-eyebrow reveal" style="margin-top:6px;">Everything In One Place</div>
+    </div>
+    <div class="hub-grid reveal">
+      <div class="hub-card" onclick="window.open('https://rpl.pages.dev','_blank')" role="button" tabindex="0" aria-label="Basketball League">
+        <div class="hub-card-icon"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M6 6c3 3 3 9 0 12M18 6c-3 3-3 9 0 12"/></svg></div>
+        <div class="hub-card-tag">Basketball</div><div class="hub-card-name">RPL League Site</div>
+        <div class="hub-card-arrow" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="hub-card" onclick="window.open('https://discord.gg/Fg8gPsruNw','_blank')" role="button" tabindex="0" aria-label="Football League Discord">
+        <div class="hub-card-icon"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9" ry="6"/><path d="M6 12h12M9 9.5v5M12 9v6M15 9.5v5"/></svg></div>
+        <div class="hub-card-tag">Football</div><div class="hub-card-name">Football Discord</div>
+        <div class="hub-card-arrow" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="hub-card" onclick="window.open('https://www.roblox.com/communities/16388862/Sporting-Gear','_blank')" role="button" tabindex="0" aria-label="Roblox Group">
+        <div class="hub-card-icon"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M4 20c0-3 2.5-5 5-5s5 2 5 5M14 19c0-2.2 1.6-3.8 3.6-3.8s3.4 1.6 3.4 3.8"/></svg></div>
+        <div class="hub-card-tag">Community</div><div class="hub-card-name">Roblox Group</div>
+        <div class="hub-card-arrow" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="hub-card" onclick="window.open('https://www.roblox.com/games/103972167643448/RPL','_blank')" role="button" tabindex="0" aria-label="Play Basketball Game">
+        <div class="hub-card-icon"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l11 7-11 7V5z" fill="#fff" stroke="none"/></svg></div>
+        <div class="hub-card-tag">Play</div><div class="hub-card-name">Basketball Game</div>
+        <div class="hub-card-arrow" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="media">
+    <div class="section-header">
+      <div class="sec-hd-top reveal">
+        <span class="section-title" style="font-size:19px;letter-spacing:.08em;">Latest from YouTube</span>
+        <span class="sec-ct sec-ct-live" id="ytLiveBadge" style="display:none;">Live Now</span>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="section-eyebrow reveal" style="margin-top:6px;">Highlights, Recaps &amp; Live Broadcasts</div>
+    </div>
+    <div class="yt-embed-card reveal">
+      <div class="yt-embed-wrap">
+        <a class="yt-promo" id="ytPromo" href="https://www.youtube.com/@SportingGear/featured" target="_blank" rel="noopener" style="display:none;">
+          <div class="yt-promo-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="yt-promo-title">Watch on YouTube</div>
+          <div class="yt-promo-sub">Full games, highlights and recaps across both basketball and football.</div>
+        </a>
+        <iframe
+          id="ytEmbedFrame"
+          title="RSC YouTube"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
+      <div class="yt-embed-footer">
+        <span class="yt-embed-note" id="ytEmbedNote">Subscribe to stay updated with RSC games, highlights, and more.</span>
+        <a href="https://www.youtube.com/@SportingGear/featured" target="_blank" rel="noopener" class="btn-ghost">
+          View More
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="links-section" id="community">
+    <div class="links-grid">
+      <a href="https://discord.gg/E4wf9Dm7TD" target="_blank" rel="noopener" class="link-card reveal">
+        <div class="link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.112 18.1.131 18.116a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg></div>
+        <div class="link-body">
+          <div class="link-title">RSC Support &amp; Official Server</div>
+          <div class="link-desc">The main RSC hub — support, official announcements, and everything spanning both leagues.</div>
+          <div class="link-action">Join Server <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+      </a>
+      <a href="https://discord.gg/revolutionaryproleague" target="_blank" rel="noopener" class="link-card reveal">
+        <div class="link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.112 18.1.131 18.116a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg></div>
+        <div class="link-body">
+          <div class="link-title">Basketball Discord</div>
+          <div class="link-desc">Join the RPL community for announcements, team finding, and every season update.</div>
+          <div class="link-action">Join Server <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+      </a>
+      <a href="https://discord.gg/Fg8gPsruNw" target="_blank" rel="noopener" class="link-card reveal">
+        <div class="link-icon" aria-hidden="true"><svg class="stroke" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9" ry="6"/><path d="M6 12h12M9 9.5v5M12 9v6M15 9.5v5"/></svg></div>
+        <div class="link-body">
+          <div class="link-title">Football Discord</div>
+          <div class="link-desc">Connect with the football side of RSC — rosters, schedules, and league news.</div>
+          <div class="link-action">Join Server <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+      </a>
+      <a href="https://www.roblox.com/communities/16388862/Sporting-Gear" target="_blank" rel="noopener" class="link-card reveal">
+        <div class="link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18.926 23.998 0 18.491 5.077.002 24 5.508zM15.348 10.09l-5.157-1.52-1.521 5.156 5.157 1.522z"/></svg></div>
+        <div class="link-body">
+          <div class="link-title">Roblox Group</div>
+          <div class="link-desc">Join the official Sporting Gear group on Roblox to unlock access to league games.</div>
+          <div class="link-action">Open Group <svg viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <footer class="reveal">
+    <div class="footer-logo">RSC — Revolutionary Sports Center</div>
+    <div class="footer-copy">© 2026 RSC. All rights reserved.</div>
+    <div class="footer-links"><a href="#">Rules</a><a href="#">Privacy</a><a href="#">Contact</a></div>
+  </footer>
+</div>
+
+<div id="toasts"></div>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M12 5L5 12M12 5l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<script>
+
+const REDUCED_MOTION=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+document.querySelectorAll('.hub-card[tabindex]').forEach(card=>{
+  card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();card.click()}});
+});
+
+const navEl=document.getElementById('mainNav');
+let lastScrollY=window.scrollY;
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  navEl.classList.toggle('scrolled',y>20);
+  if(y>140&&y>lastScrollY){navEl.classList.add('nav-hidden')}
+  else{navEl.classList.remove('nav-hidden')}
+  lastScrollY=y;
+
+  const doc=document.documentElement;
+  const max=doc.scrollHeight-doc.clientHeight;
+  const pct=max>0?(y/max)*100:0;
+  const prog=document.getElementById('scrollProgress');
+  if(prog)prog.style.width=pct+'%';
+
+  const btt=document.getElementById('backToTop');
+  if(btt)btt.classList.toggle('show',y>500);
+},{passive:true});
+
+const SECTION_IDS=['home','features','leagues','media','community'];
+
+function setActiveNav(page){
+  document.querySelectorAll('[data-page]').forEach(btn=>btn.classList.toggle('active',btn.dataset.page===page));
+}
+
+function scrollToSection(id){
+  const target=document.getElementById(id);
+  if(target)target.scrollIntoView({behavior:REDUCED_MOTION?'auto':'smooth',block:'start'});
+  setActiveNav(id);
+}
+
+const sectionObs=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){setActiveNav(entry.target.id)}
+  });
+},{rootMargin:'-45% 0px -45% 0px',threshold:0});
+SECTION_IDS.forEach(id=>{
+  const el=document.getElementById(id);
+  if(el)sectionObs.observe(el);
+});
+
+function toggleMenu(){
+  const menu=document.getElementById('mobileMenu');
+  const ham=document.getElementById('hamburger');
+  const open=!menu.classList.contains('open');
+  menu.classList.toggle('open',open);
+  ham.classList.toggle('open',open);
+  ham.setAttribute('aria-expanded',open);
+  document.body.style.overflow=open?'hidden':'';
+}
+function closeMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+  const ham=document.getElementById('hamburger');
+  ham.classList.remove('open');
+  ham.setAttribute('aria-expanded',false);
+  document.body.style.overflow='';
+}
+document.addEventListener('click',e=>{
+  const menu=document.getElementById('mobileMenu');
+  const ham=document.getElementById('hamburger');
+  if(menu.classList.contains('open')&&!menu.contains(e.target)&&!ham.contains(e.target))closeMenu();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMenu()}});
+
+const revealObs=new IntersectionObserver((entries)=>{
+  entries.forEach((entry,i)=>{
+    if(entry.isIntersecting){
+      entry.target.style.transitionDelay=(i*0.06)+'s';
+      entry.target.classList.add('visible');
+      revealObs.unobserve(entry.target);
+    }
+  });
+},{threshold:0.06});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+function countUp(el){
+  const target=parseInt(el.dataset.count,10);
+  if(isNaN(target))return;
+  if(REDUCED_MOTION){el.textContent=target;return}
+  const dur=900,start=performance.now();
+  function tick(now){
+    const p=Math.min(1,(now-start)/dur);
+    const eased=1-Math.pow(1-p,3);
+    el.textContent=Math.round(target*eased);
+    if(p<1)requestAnimationFrame(tick);else el.textContent=target;
+  }
+  requestAnimationFrame(tick);
+}
+const countObs=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){countUp(entry.target);countObs.unobserve(entry.target)}
+  });
+},{threshold:0.4});
+document.querySelectorAll('[data-count]').forEach(el=>countObs.observe(el));
+
+if(window.matchMedia('(hover: hover)').matches && !REDUCED_MOTION){
+  document.querySelectorAll('.hub-card, .link-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      card.style.setProperty('--mx',(e.clientX-r.left)+'px');
+      card.style.setProperty('--my',(e.clientY-r.top)+'px');
+    });
+  });
+
+  const heroEl=document.querySelector('.hero');
+  const heroContent=document.getElementById('heroContent');
+  if(heroContent&&heroEl){
+    heroEl.addEventListener('mousemove',e=>{
+      const r=heroEl.getBoundingClientRect();
+      const px=(e.clientX-r.left)/r.width-0.5;
+      const py=(e.clientY-r.top)/r.height-0.5;
+      heroContent.style.transform=`translate(${(px*8).toFixed(1)}px, ${(py*5).toFixed(1)}px)`;
+    });
+    heroEl.addEventListener('mouseleave',()=>{heroContent.style.transform=''});
+  }
+}
+
+document.getElementById('backToTop').addEventListener('click',()=>{
+  window.scrollTo({top:0,behavior:REDUCED_MOTION?'auto':'smooth'});
+});
+
+const scrollCueBtn=document.getElementById('scrollCue');
+if(scrollCueBtn){
+  scrollCueBtn.addEventListener('click',()=>{scrollToSection('features')});
+  window.addEventListener('scroll',()=>{
+    scrollCueBtn.style.opacity=window.scrollY>80?'0':'';
+    scrollCueBtn.style.pointerEvents=window.scrollY>80?'none':'';
+  },{passive:true});
+}
+
+(function(){
+  const CHANNEL_ID='UCC5gvc4coST3DG7yfRRGTZQ';
+  const FEATURED_VIDEO_ID='';
+
+  const frame=document.getElementById('ytEmbedFrame');
+  const promo=document.getElementById('ytPromo');
+  const badge=document.getElementById('ytLiveBadge');
+  const note=document.getElementById('ytEmbedNote');
+  if(!frame)return;
+
+  function showPromo(){
+    frame.style.display='none';
+    frame.removeAttribute('src');
+    if(promo)promo.style.display='flex';
+  }
+
+  function playVideo(videoId){
+    frame.src='https://www.youtube.com/embed/'+videoId+'?rel=0&enablejsapi=1';
+    frame.style.display='block';
+    if(promo)promo.style.display='none';
+  }
+
+  window.addEventListener('message',function(e){
+    if(e.origin!=='https://www.youtube.com')return;
+    let data;
+    try{ data=JSON.parse(e.data); }catch(err){ return; }
+    if(data.event==='onError')showPromo();
+  });
+
+  if(FEATURED_VIDEO_ID){
+    playVideo(FEATURED_VIDEO_ID);
+  }else{
+    showPromo();
+  }
+
+  const liveCheckUrl='https://www.youtube.com/oembed?url='+encodeURIComponent('https://www.youtube.com/channel/'+CHANNEL_ID+'/live')+'&format=json';
+
+  fetch(liveCheckUrl)
+    .then(res=>{ if(!res.ok) throw new Error('not live'); return res.json(); })
+    .then(data=>{
+      const thumb=data.thumbnail_url||'';
+      const match=thumb.match(/\/vi\/([^\/]+)\//);
+      const videoId=match?match[1]:null;
+      if(!videoId)throw new Error('no video id');
+      playVideo(videoId);
+      if(badge)badge.style.display='inline-flex';
+      if(note)note.textContent=(data.title||'Live broadcast')+' — streaming now.';
+    })
+    .catch(()=>{});
+})();
+</script>
+</body>
+</html>
