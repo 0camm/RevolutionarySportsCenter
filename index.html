@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0a0a0b">
 <title>RSC — Revolutionary Sports Center</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" href="RSC-Logo.png" type="image/png">
+<link rel="icon" href="Images/RSC.png" type="image/png">
 
 <meta property="og:title" content="RSC — Revolutionary Sports Center" />
 <meta property="og:description" content="NBA & NFL based franchises, competitive gameplay, stats, standings, playoffs and media — all in one hub." />
@@ -207,17 +207,16 @@ nav.nav-hidden{transform:translateY(-100%)}
 }
 .hero-static-bg{
   position:absolute;inset:0;z-index:0;
-  background:
-    radial-gradient(900px 500px at 78% 8%, rgba(255,255,255,.07), transparent 60%),
-    radial-gradient(700px 460px at 8% 92%, rgba(255,255,255,.05), transparent 55%),
-    linear-gradient(160deg,#141416 0%,#0a0a0b 60%);
+  background-image:url('Images/RSCBanner.webp');
+  background-size:cover;background-position:center 22%;
+  filter:brightness(.5) saturate(.15) contrast(1.05);
+  transform:scale(1.02);
 }
 .hero-static-bg::before{
-  content:'';position:absolute;inset:0;opacity:.5;
-  background-image:
-    radial-gradient(circle at 22% 30%, rgba(255,255,255,.06) 0, rgba(255,255,255,.06) 2px, transparent 2px),
-    radial-gradient(circle at 68% 62%, rgba(255,255,255,.05) 0, rgba(255,255,255,.05) 2px, transparent 2px);
-  background-size:64px 64px, 88px 88px;
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(900px 500px at 78% 8%, rgba(255,255,255,.06), transparent 60%),
+    radial-gradient(700px 460px at 8% 92%, rgba(255,255,255,.04), transparent 55%);
 }
 .hero-vignette{
   position:absolute;inset:0;z-index:1;
@@ -653,7 +652,7 @@ footer{padding:32px max(28px,var(--safe-left));display:flex;align-items:center;j
 <nav id="mainNav">
   <div class="nav-left">
     <div class="nav-logo" onclick="scrollToSection('home')">
-      <img src="RSC-Logo.png" alt="RSC" style="width:30px;height:30px;object-fit:contain;">
+      <img src="Images/RSC.png" alt="RSC" style="width:30px;height:30px;object-fit:contain;">
       <span class="nav-brand">Revolutionary <em>Sports Center</em></span>
     </div>
     <span class="nav-pill">Basketball • Football</span>
